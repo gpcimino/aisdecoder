@@ -1,0 +1,45 @@
+version = 1
+requires-python = ">=3.12"
+
+[[package]]
+name = "aisdecoder"
+version = "0.1.0"
+source = { editable = "." }
+dependencies = [
+    { name = "libais" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "assertpy" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "libais", specifier = ">=0.17" }]
+
+[package.metadata.requires-dev]
+dev = [{ name = "assertpy", specifier = ">=1.1" }]
+
+[[package]]
+name = "assertpy"
+version = "1.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/4f/39/720b5d4463612a40a166d00999cbb715fce3edaf08a9a7588ba5985699ec/assertpy-1.1.tar.gz", hash = "sha256:acc64329934ad71a3221de185517a43af33e373bb44dc05b5a9b174394ef4833", size = 25421 }
+
+[[package]]
+name = "libais"
+version = "0.17"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "six" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/8c/be/df64b5f1dfa2bc26f7cc4c8483129ef6cdf8683c93789439f67701fb4c26/libais-0.17.tar.gz", hash = "sha256:eb2aea2298c5e976927d748e4c0d01e1fdda2dc1d792003fdd6059041350d35f", size = 157369 }
+
+[[package]]
+name = "six"
+version = "1.17.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/94/e7/b2c673351809dca68a0e064b6af791aa332cf192da575fd474ed7d6f16a2/six-1.17.0.tar.gz", hash = "sha256:ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81", size = 34031 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b7/ce/149a00dd41f10bc29e5921b496af8b574d8413afcd5e30dfa0ed46c2cc5e/six-1.17.0-py2.py3-none-any.whl", hash = "sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274", size = 11050 },
+]
