@@ -1,4 +1,4 @@
-import ais
+import ais  # type: ignore
 
 class AISMessage19:
     @classmethod

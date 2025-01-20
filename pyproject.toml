@@ -21,4 +21,6 @@ build-backend = "hatchling.build"
 [tool.uv]
 dev-dependencies = [
     "assertpy>=1.1",
+    "deptry>=0.22.0",
+    "mypy>=1.14.1",
 ]

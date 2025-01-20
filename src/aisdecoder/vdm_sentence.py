@@ -17,43 +17,43 @@ class VMDSentence(ABC):
 
     @abstractmethod
     def msg_id(self) -> int:
-        raise NotImplemented()
+        raise NotImplementedError()
     
     @abstractmethod
     def verify_checksum(self) -> bool:
-        raise NotImplemented()
+        raise NotImplementedError()
 
     @abstractmethod
     def is_payload_complete(self) -> bool:
-        raise NotImplemented()
+        raise NotImplementedError()
     
     @abstractmethod
     def is_multi_sentence(self) -> bool:
-        raise NotImplemented()
+        raise NotImplementedError()
     
     @abstractmethod
     def is_before(self, other) -> bool:
-        raise NotImplemented()
+        raise NotImplementedError()
 
     @abstractmethod
     def is_first(self) -> bool:
-        raise NotImplemented()
+        raise NotImplementedError()
     
     @abstractmethod    
     def payload(self) -> str:
-        raise NotImplemented()
+        raise NotImplementedError()
     
     @abstractmethod    
     def padding(self) -> int:
-        raise NotImplemented()
+        raise NotImplementedError()
     
     @abstractmethod    
     def receiver_class(self) -> str:
-        raise NotImplemented()
+        raise NotImplementedError()
     
     @abstractmethod    
     def time(self) -> datetime:
-        raise NotImplemented() 
+        raise NotImplementedError()
     
     def can_create_message(self) -> bool:
         return self._message_factory.can_create(self.msg_id())
@@ -109,7 +109,7 @@ class SingleLineVDMSentence(VMDSentence):
         if self._prog_num > self._num_sent:
             raise SentenceOuOfOrderError(sentence_str)
         if self._receiver_class not in ["A", "B"]:
-            raise SentenceBadDataError("Wrong transmitter class " + self.trasmitter_class, sentence_str)
+            raise SentenceBadDataError("Wrong transmitter class " + self.receiver_class(), sentence_str)
 
     def msg_id(self):
         """Parse only the first char of the sentence to extarct only the AIS msg id (first 6 bits)"""

@@ -1,7 +1,7 @@
 from collections.abc import Iterable
 
-from vdm_sentence_structure import SentenceStructure
-from vdm_sentence import SingleLineVDMSentence, MultiLineVDMSentence, SingleLineVDMSentenceNoChekcsum
+from aisdecoder.vdm_sentence_structure import SentenceStructure
+from aisdecoder.vdm_sentence import SingleLineVDMSentence, MultiLineVDMSentence, SingleLineVDMSentenceNoChekcsum
 
 class VDMSentenceFactory:
     def __init__(self, sentence_structure: SentenceStructure, message_factory, verify_checksum: bool = False) -> None:
@@ -19,6 +19,6 @@ class VDMSentenceFactory:
         
     def make_from_str(self, sentence: str):
         if self._verify_chekcsum:
-            return SingleLineVDMSentence(sentence, self._sentence_structure)  
+            return SingleLineVDMSentence(sentence, self._sentence_structure, self._message_factory)  
         else:
-            return SingleLineVDMSentenceNoChekcsum(sentence, self._sentence_structure)
+            return SingleLineVDMSentenceNoChekcsum(sentence, self._sentence_structure, self._message_factory)

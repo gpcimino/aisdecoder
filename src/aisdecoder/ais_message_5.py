@@ -1,6 +1,6 @@
 from datetime import datetime
 
-import ais
+import ais  # type: ignore
 
 from aisdecoder.exceptions import CannotDecodeVDMPaylaodError
 from aisdecoder.ais_message import AISMessage
