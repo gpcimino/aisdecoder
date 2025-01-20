@@ -1,0 +1,6 @@
+- [ ] kinematic to static correlation
+- [ ] complete csv writer
+- [ ] flywigth patter for MMSI
+- [ ] MMSI info (e.g. flag)
+- [ ] full attribute for messages
+- [ ] error check

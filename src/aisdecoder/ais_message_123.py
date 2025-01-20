@@ -7,9 +7,10 @@ from aisdecoder.exceptions import CannotDecodeVDMPaylaodError
 from aisdecoder.basictypes.basic_types import Point
 
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Optional
 if TYPE_CHECKING:
     from datetime import datetime
+    from aisdecoder.ais_message_5 import AISMessage5
 
 class AISMessage123(AISKinematicMessage):
     @classmethod
@@ -56,6 +57,7 @@ class AISMessage123(AISKinematicMessage):
         )
         self._id = id
         self._rot: float = rot
+        self.static_msg: Optional["AISMessage5"] = None
 
     def message_id(self) -> int:
         return self._id
@@ -92,7 +94,8 @@ class AISMessage123(AISKinematicMessage):
     def write(self, writer):
         writer.write_message123(self)
 
-
+    def add_static(self, static_msg: "AISMessage5") -> None:
+        self.static_msg = static_msg
 
 # import logging
 # import math

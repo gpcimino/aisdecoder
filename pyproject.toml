@@ -10,10 +10,11 @@ requires-python = ">=3.12"
 dependencies = [
     "libais>=0.17",
     "matplotlib>=3.10.0",
+    "numpy>=2.2.2",
 ]
 
 [project.scripts]
-aisdecoder = "aisdecoder:main"
+aisdecoder = "aisdecoder.cli.main:main" 
 
 [build-system]
 requires = ["hatchling"]
@@ -25,3 +26,6 @@ dev-dependencies = [
     "deptry>=0.22.0",
     "mypy>=1.14.1",
 ]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/aisdecoder"]

@@ -1,8 +1,8 @@
 import unittest
+from datetime import datetime, timezone
 
 from assertpy import assert_that
 
-from datetime import datetime, timezone
 from aisdecoder.message_factory import AllMessagesFactory
 from aisdecoder.vdm_sentence_structure import FixTimeSentence
 from aisdecoder.vdm_sentence import SingleLineVDMSentence, MultiLineVDMSentence

@@ -8,6 +8,7 @@ source = { editable = "." }
 dependencies = [
     { name = "libais" },
     { name = "matplotlib" },
+    { name = "numpy" },
 ]
 
 [package.dev-dependencies]
@@ -21,6 +22,7 @@ dev = [
 requires-dist = [
     { name = "libais", specifier = ">=0.17" },
     { name = "matplotlib", specifier = ">=3.10.0" },
+    { name = "numpy", specifier = ">=2.2.2" },
 ]
 
 [package.metadata.requires-dev]

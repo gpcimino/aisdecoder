@@ -27,3 +27,5 @@ class KinematicMessagesFactory:
             return AISMessage18.from_sentence(payload, padding, receiver_class, time)            
         else:
             raise ValueError(f"Cannot cretae message with id {msg_id}")
+        
+
