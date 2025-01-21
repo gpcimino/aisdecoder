@@ -28,13 +28,13 @@ class WriterCSV(Writer):
     def _write_kinematic_message(self, message: "AISKinematicMessage") -> None:   
         self._write_ais_message(message)        
         self._fp.write(
-            f",{message.position().as_csv()}"
-        )        
+            f",{message.position().as_csv()},{message.course_over_ground()},{message.speed_over_ground()},{message.true_heading()},{message.position_accuracy()}"  
+        )
 
     def write_message123(self, message: "AISMessage123") -> None:
         self._write_kinematic_message(message)
         self._fp.write(
-            f",{message.rate_of_turn()}\n"
+            f",{message.rate_of_turn()},{message.static_msg.name() if message.static_msg is not None else ''}\n"
         )
 
     def write_message5(self, message: "AISMessage5") -> None:

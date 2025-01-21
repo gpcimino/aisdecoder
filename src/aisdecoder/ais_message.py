@@ -3,7 +3,7 @@ from abc import abstractmethod
 
 from typing import TYPE_CHECKING, Any
 if TYPE_CHECKING:
-    from datetime import datetime
+    from datetime import timedelta
 
 
 class AISMessage:
@@ -30,6 +30,9 @@ class AISMessage:
     @abstractmethod
     def write(self, writer):
         raise NotImplementedError()
+    
+    def ellapsed_time(self, other: "AISMessage") -> "timedelta":
+        return self.time() - other.time()
 
     # """
     # AIS Messages can contains wrong information.

@@ -39,3 +39,17 @@ class TestCorrelateStaticIterator(unittest.TestCase):
         assert_that(correlated_msgs).is_length(3)
         assert_that(correlated_msgs[0].static_msg).is_none()
         assert_that(correlated_msgs[2].static_msg).is_none()
+
+    def test_msg5_after_ellapsed_time_since_msg1_should_not_correlate(self):
+
+        iterator = CorrelateStaticIterator([
+                create_msg_123(time=self._t0, mmsi=self._mmsi1),
+                create_msg_5(time=self._t0 + timedelta(seconds=10), mmsi=self._mmsi1),
+                create_msg_123(time=self._t0 + timedelta(seconds=20), mmsi=self._mmsi1),
+            ],
+            valid_time=timedelta(seconds=5)
+        )
+        correlated_msgs = [m for m in iterator]
+        assert_that(correlated_msgs).is_length(3)
+        assert_that(correlated_msgs[0].static_msg).is_none()
+        assert_that(correlated_msgs[2].static_msg).is_none()    

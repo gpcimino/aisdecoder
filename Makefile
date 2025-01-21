@@ -19,7 +19,7 @@ quality: ## Run code quality tools.
 	@uv run deptry --per-rule-ignores "DEP003=aisdecoder" .
 
 .PHONY: test
-test: ## Run tests
+test: quality ## Run tests
 	@echo "Unit tests"
 	@uv run python -m unittest discover tests/unit/
 

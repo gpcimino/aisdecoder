@@ -33,6 +33,6 @@ class TestWriter(unittest.TestCase):
                 4.1
             )
         )
-        assert_that(csv.getvalue()).is_equal_to("1735726801,370394000,1,10.1,14.2,4.1\n")
+        assert_that(csv.getvalue()).is_equal_to("1735726801,370394000,1,10.1,14.2,3.2,4.5,180,1,4.1,\n")
 
         

@@ -25,7 +25,7 @@ class RealTimeSentence(SentenceStructure):
         return sentence
     
 class FixTimeSentence(SentenceStructure):
-    def __init__(self, fix_time):
+    def __init__(self, fix_time: datetime):
         self._fix_time = fix_time
 
     def time(self, sentence: str) -> datetime:

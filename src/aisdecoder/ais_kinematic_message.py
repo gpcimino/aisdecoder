@@ -50,6 +50,9 @@ class AISKinematicMessage(AISMessage):
     def true_heading(self):
         return self._true_heading
     
+    def position_accuracy(self):
+        return self._position_accuracy
+    
     def is_inside(self, bbox):
         return bbox.contains(self._position)
 

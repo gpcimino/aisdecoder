@@ -8,6 +8,7 @@ from aisdecoder.writers.density_map import DensityMap
 from aisdecoder.writers.writer_csv import WriterCSV
 from aisdecoder.filters.filter_bbox import FilterBBox
 from aisdecoder.basictypes.basic_types import Rectangle
+from aisdecoder.correlate_static_iterator import CorrelateStaticIterator
 
 def file_to_csv(fn):
     with open(fn) as f:
@@ -31,8 +32,9 @@ def file_to_netcdf(fn):
             output_file="density_map.png", 
             filters=[FilterBBox(Rectangle(7, 41, 12, 45.5))]
         )
+        static_correration_it = CorrelateStaticIterator(it)
         csv = WriterCSV(Path("kine.csv"))
-        for msg in it:
+        for msg in static_correration_it:
             map.add_message(msg)
             msg.write(csv)
         map.generate_density_map()

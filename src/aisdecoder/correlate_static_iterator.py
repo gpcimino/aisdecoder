@@ -1,11 +1,15 @@
-from typing import TYPE_CHECKING, Dict, Optional
+from datetime import timedelta
+
+from typing import TYPE_CHECKING, Dict, Optional, Iterator
 if TYPE_CHECKING: 
     from aisdecoder.ais_message_123 import AISMessage123
     from aisdecoder.ais_message_5 import AISMessage5
+    from aisdecoder.ais_message import AISMessage
 
 class CorrelateStaticIterator:
-    def __init__(self, message_iterator):
-        self._message_iterator = iter(message_iterator)
+    def __init__(self, message_iterator: Iterator["AISMessage"], valid_time: Optional[timedelta]=None):
+        self._message_iterator: Iterator["AISMessage"] = iter(message_iterator)
+        self._valid_time: Optional[timedelta] = valid_time
         self._cache: Dict[int, "AISMessage5"] = {}
 
     def __iter__(self):
@@ -25,7 +29,12 @@ class CorrelateStaticIterator:
         raise StopIteration()
     
     def _get_last_static_or_none(self, msg: "AISMessage123") -> Optional["AISMessage5"]:
-        return self._cache.get(msg.MMSI(), None)
+        match:  Optional["AISMessage5"] = self._cache.get(msg.MMSI(), None)
+        if self._valid_time is None:
+            return match
+        if match and msg.ellapsed_time(match) <= self._valid_time:
+            return match
+        return None
 
     def _add_cache(self, msg: "AISMessage5") -> None:
         self._cache[msg.MMSI()] = msg
