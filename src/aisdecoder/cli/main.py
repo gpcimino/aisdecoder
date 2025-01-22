@@ -9,6 +9,7 @@ from aisdecoder.writers.writer_csv import WriterCSV
 from aisdecoder.filters.filter_bbox import FilterBBox
 from aisdecoder.basictypes.basic_types import Rectangle
 from aisdecoder.correlate_static_iterator import CorrelateStaticIterator
+from aisdecoder.sentence_error_report import sentence_error_report_singleton
 
 def file_to_csv(fn):
     with open(fn) as f:
@@ -21,7 +22,9 @@ def file_to_csv(fn):
             print(msg.as_csv())
 
 def file_to_netcdf(fn):
-    with open(fn) as f:
+    fn = Path(fn)
+    #error_report_singleton.set("sentences", "input_file_size_byte", fn.stat().st_size)
+    with fn.open() as f:
         it = MessageIterator(
             f,
             sentence_structure = EndsWithEpochTime(),
@@ -40,11 +43,15 @@ def file_to_netcdf(fn):
         map.generate_density_map()
         csv.close()
 
+        sentence_error_report_singleton.save(Path("stats.json"))
+
 if __name__ == "__main__":
     #pprint(timeit.repeat(plain_aislib, number=1, repeat=1))
     print("------------------")
     #[9.004973700000846, 9.574930900000254, 9.082180499999595]
-    
-    filepath = sys.argv[1]  #-extract
+    if len(sys.argv) == 2:
+        filepath = sys.argv[1]  #-extract
+    else:
+        filepath = Path("~/data/ais/20210919.log").expanduser().absolute()
     file_to_netcdf(filepath)
     #pprint(timeit.repeat(parse_file, number=1, repeat=1))

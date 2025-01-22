@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 
-from aisdecoder.exceptions import MalformedSenetenceError
+from aisdecoder.exceptions import MissingTimeSentenceError
 
 
 class SentenceStructure():
@@ -11,8 +11,8 @@ class EndsWithEpochTime(SentenceStructure):
         try:
             epoch = int(sentence.rsplit(",", maxsplit=1)[-1])
             return datetime.fromtimestamp(epoch, timezone.utc)
-        except Exception: #fixme
-            raise MalformedSenetenceError("Cannot find valid epoch time at the end of the sentence", sentence) 
+        except TypeError: 
+            raise MissingTimeSentenceError("Cannot find valid epoch time at the end of the sentence", sentence) 
         
     def nmea_vdm_payload(self, sentence: str) -> str:
         return sentence.rsplit(",", maxsplit=1)[0]

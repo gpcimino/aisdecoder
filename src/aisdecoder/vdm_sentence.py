@@ -4,8 +4,10 @@ import re
 from abc import ABC, abstractmethod
 
 from aisdecoder.vdm_sentence_structure import RealTimeSentence
-from aisdecoder.exceptions import MalformedSenetenceError, BadCheckSumError, SentenceBadDataError, MultiLineSentenceError, SentenceOuOfOrderError
+from aisdecoder.exceptions import MalformedSentenceError, BadChecksumSentenceError, BadDataSentenceError, MultiLineSentenceError, OuOfOrderSentenceError, EmptySentenceError
 from aisdecoder.message_factory import AllMessagesFactory
+from aisdecoder.sentence_error_report import sentence_error_report_singleton as err
+
 
 from typing import TYPE_CHECKING, Any
 if TYPE_CHECKING:
@@ -78,8 +80,9 @@ class SingleLineVDMSentence(VMDSentence):
     
     def __init__(self, sentence_str: str, sentence_structure, message_factory):
         super().__init__(message_factory)
+        err.add_text_line()
         if sentence_str is None or sentence_str == "":
-            raise ValueError("Empty or null sentence")
+            raise EmptySentenceError("Empty or null sentence")
      
 
         self._time = sentence_structure.time(sentence_str)
@@ -87,7 +90,7 @@ class SingleLineVDMSentence(VMDSentence):
 
         match = regex.match(self._nmea_vdm)
         if not match:
-            raise MalformedSenetenceError("Bad VMD sentence structure", self._nmea_vdm)
+            raise MalformedSentenceError("Bad VMD sentence structure", self._nmea_vdm)
 
         try:
             self._source = match.group(1)
@@ -100,16 +103,18 @@ class SingleLineVDMSentence(VMDSentence):
             self._padding = int(match.group(7))
             self._checksum = int(match.group(8), 16)
         except ValueError as ver:
-            raise SentenceBadDataError("Cannot parse/convert sentence data", sentence_str) from ver
+            raise BadDataSentenceError("Cannot parse/convert sentence data", sentence_str) from ver
 
         if not self.verify_checksum():
-            raise BadCheckSumError(sentence_str)
+            raise BadChecksumSentenceError(sentence_str)
 
         #invariants:
         if self._prog_num > self._num_sent:
-            raise SentenceOuOfOrderError(sentence_str)
-        if self._receiver_class not in ["A", "B"]:
-            raise SentenceBadDataError("Wrong transmitter class " + self.receiver_class(), sentence_str)
+            raise OuOfOrderSentenceError(sentence_str)
+        # if self._receiver_class not in ["A", "B"]:
+        #     raise BadDataSentenceError("Wrong transmitter class " + self.receiver_class(), sentence_str)
+
+        err.add_sentence()
 
     def msg_id(self):
         """Parse only the first char of the sentence to extarct only the AIS msg id (first 6 bits)"""

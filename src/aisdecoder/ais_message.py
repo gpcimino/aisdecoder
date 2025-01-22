@@ -24,6 +24,12 @@ class AISMessage:
     def receiver_class(self) -> str:
         return self._receiver_class
     
+    def receiver_class_validation(self) -> bool:
+        if self._receiver_class in ["A", "B"]:
+            return True
+        else:
+            return False
+
     def is_kinematic(self) -> bool:
         raise NotImplementedError()
 
