@@ -3,7 +3,7 @@ from datetime import datetime
 
 from aisdecoder.ais_message import AISMessage
 from aisdecoder.basictypes.basic_types import Point
-
+from aisdecoder.message_errors import MessageErrors
 
 
 from typing import TYPE_CHECKING
@@ -37,9 +37,13 @@ class AISKinematicMessage(AISMessage):
     def position(self) -> Point:
         return self._position
     
-    def has_valid_position(self)-> bool:
-        return True
-        #return Error.ok if in -90/90 -180/180 else retun error.bad_lat | error.bad_long
+    def validate_position(self)-> MessageErrors:
+        err = MessageErrors.OK
+        if not self._position.has_valid_latitude():
+            err |= MessageErrors.BAD_LATITUDE
+        if not self._position.has_valid_longitude():
+            err |= MessageErrors.BAD_LONGITUDE
+        return err
     
     def course_over_ground(self):
         return self._cog

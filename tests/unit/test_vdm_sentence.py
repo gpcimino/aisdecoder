@@ -6,7 +6,7 @@ from assertpy import assert_that
 from aisdecoder.message_factory import AllMessagesFactory
 from aisdecoder.vdm_sentence_structure import FixTimeSentence
 from aisdecoder.vdm_sentence import SingleLineVDMSentence, MultiLineVDMSentence
-from aisdecoder.exceptions import MalformedSenetenceError, BadCheckSumError
+from aisdecoder.exceptions import MalformedSentenceError, BadChecksumSentenceError, EmptySentenceError
 
 
 class TestVDMSentence(unittest.TestCase):
@@ -24,32 +24,32 @@ class TestVDMSentence(unittest.TestCase):
 
 
     def test_null_sentence_should_raise(self):
-        assert_that(SingleLineVDMSentence.create_realtime_sentence).raises(ValueError).when_called_with(None)
+        assert_that(SingleLineVDMSentence.create_realtime_sentence).raises(EmptySentenceError).when_called_with(None)
 
     def test_empty_sentence_should_raise(self):
-        assert_that(SingleLineVDMSentence.create_realtime_sentence).raises(ValueError).when_called_with("")       
+        assert_that(SingleLineVDMSentence.create_realtime_sentence).raises(EmptySentenceError).when_called_with("")       
 
     def test_partial_checksum_should_raise(self):
-        assert_that(SingleLineVDMSentence.create_realtime_sentence).raises(MalformedSenetenceError).when_called_with("*45")  
+        assert_that(SingleLineVDMSentence.create_realtime_sentence).raises(MalformedSentenceError).when_called_with("*45")  
 
     def test_garbage_should_raise(self):
         assert_that(SingleLineVDMSentence.create_realtime_sentence) \
-            .raises(MalformedSenetenceError) \
+            .raises(MalformedSentenceError) \
             .when_called_with("all your base are belong to us")
 
     def test_invalid_checksum_should_raise(self):
         assert_that(SingleLineVDMSentence.create_realtime_sentence) \
-            .raises(BadCheckSumError) \
+            .raises(BadChecksumSentenceError) \
             .when_called_with(self.s1.replace("*45","*40"))
 
     def test_broken_char_should_raise_due_invalid_checksum(self):
         assert_that(SingleLineVDMSentence.create_realtime_sentence) \
-            .raises(BadCheckSumError) \
+            .raises(BadChecksumSentenceError) \
             .when_called_with(self.s1.replace("?3T", "?XT"))
 
     def test_invalid_progress_number_should_raise_due_invalid_checksum(self):
         assert_that(SingleLineVDMSentence.create_realtime_sentence) \
-            .raises(MalformedSenetenceError) \
+            .raises(MalformedSentenceError) \
             .when_called_with(self.s1.replace(",1,1,", ",X,1,"))
 
     def test_single_sentence_should_not_be_multipart(self):

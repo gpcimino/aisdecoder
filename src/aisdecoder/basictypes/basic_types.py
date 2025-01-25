@@ -12,6 +12,12 @@ class Point:
     
     def as_lat_lon_tuple(self) -> tuple:
         return (self.lat, self.lon)
+    
+    def has_valid_latitude(self) -> bool:
+        return -90 <= self.lat <= 90
+    
+    def has_valid_longitude(self) -> bool:
+        return -180 <= self.lon <= 180
 
 class Rectangle:
     def __init__(self, min_lon, min_lat, max_lon, max_lat) -> None:

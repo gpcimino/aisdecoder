@@ -39,7 +39,7 @@ class SentenceErrorReport:
         return self.text_lines - self.sentences_number == self.total_errors()
 
 
-    def report(self) -> dict[str, Number]:
+    def report(self) -> dict[str, Union[Number, dict[str,int]]]:
         return {
             "text_lines": self.text_lines,
             "total_errors": self.total_errors(),
@@ -58,6 +58,16 @@ class SentenceErrorReport:
     def save(self, file: "Path") -> None:
         with file.open("w") as f:   
             json.dump(self.report(), f) 
+
+    def reset(self) -> None:
+        self.text_lines = 0
+        self.empty = 0
+        self.missing_time = 0
+        self.malformed = 0
+        self.bad_data = 0
+        self.bad_checksum = 0
+        self.out_of_order = 0
+        self.sentences_number = 0
 
 
 sentence_error_report_singleton = SentenceErrorReport() 
