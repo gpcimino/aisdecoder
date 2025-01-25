@@ -2,6 +2,7 @@
 from dataclasses import dataclass
 import json
 
+
 from typing import TYPE_CHECKING, Union
 if TYPE_CHECKING:
     from pathlib import Path  

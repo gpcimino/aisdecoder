@@ -6,7 +6,7 @@ from aisdecoder.basictypes.basic_types import Point
 from aisdecoder.message_errors import MessageErrors
 
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 if TYPE_CHECKING:
     from datetime import datetime
 
@@ -37,6 +37,9 @@ class AISKinematicMessage(AISMessage):
     def position(self) -> Point:
         return self._position
     
+    def position_uom(self) -> str:
+        return "geographic coordinates"
+    
     def validate_position(self)-> MessageErrors:
         err = MessageErrors.OK
         if not self._position.has_valid_latitude():
@@ -45,8 +48,19 @@ class AISKinematicMessage(AISMessage):
             err |= MessageErrors.BAD_LONGITUDE
         return err
     
-    def course_over_ground(self):
+    def course_over_ground(self) -> Optional[float]:
+        if self._cog == 3600:
+            return None
         return self._cog
+    
+    def course_over_ground_uom(self) -> str:
+        return "degrees, 0 is north"
+    
+    def validate_course_over_ground(self)-> MessageErrors:
+        err = MessageErrors.OK
+        if not 0<= self._cog <= 3600:
+            err |= MessageErrors.BAD_COURSE_OVER_GROUND
+        return err    
     
     def speed_over_ground(self):
         return self._sog
@@ -59,4 +73,10 @@ class AISKinematicMessage(AISMessage):
     
     def is_inside(self, bbox):
         return bbox.contains(self._position)
+    
+    def errors(self):
+        return self.validate_position() 
+    
+    def warnings(self):
+        return self.validate_course_over_ground()
 

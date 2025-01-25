@@ -1,6 +1,8 @@
 from datetime import datetime
 from abc import abstractmethod
 
+from aisdecoder.message_errors import MessageErrors as Err
+
 from typing import TYPE_CHECKING, Any
 if TYPE_CHECKING:
     from datetime import timedelta
@@ -39,6 +41,12 @@ class AISMessage:
     
     def ellapsed_time(self, other: "AISMessage") -> "timedelta":
         return self.time() - other.time()
+    
+    def errors(self):
+        return Err.OK
+    
+    def warnings(self):
+        return Err.OK   
 
     # """
     # AIS Messages can contains wrong information.

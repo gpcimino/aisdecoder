@@ -10,6 +10,7 @@ from aisdecoder.filters.filter_bbox import FilterBBox
 from aisdecoder.basictypes.basic_types import Rectangle
 from aisdecoder.correlate_static_iterator import CorrelateStaticIterator
 from aisdecoder.sentence_error_report import sentence_error_report_singleton
+from aisdecoder.writers.writer_stats import WriterStats
 
 def file_to_csv(fn):
     with open(fn) as f:
@@ -37,13 +38,15 @@ def file_to_netcdf(fn):
         )
         static_correration_it = CorrelateStaticIterator(it)
         csv = WriterCSV(Path("kine.csv"))
+        stats=WriterStats()
         for msg in static_correration_it:
             map.add_message(msg)
             msg.write(csv)
+            msg.write(stats)
         map.generate_density_map()
         csv.close()
-
-        sentence_error_report_singleton.save(Path("stats.json"))
+        stats.save(Path("stats_msg.json"))
+        sentence_error_report_singleton.save(Path("stat_sent.json"))
 
 if __name__ == "__main__":
     #pprint(timeit.repeat(plain_aislib, number=1, repeat=1))
