@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, List
+from typing import TYPE_CHECKING, List, Optional
 from abc import abstractmethod
 if TYPE_CHECKING:
     from aisdecoder.ais_message import AISMessage
@@ -10,8 +10,8 @@ if TYPE_CHECKING:
     from aisdecoder.filters.filter import Filter 
 
 class Writer:
-    def __init__(self, filters: List["Filter"]):
-        self._filters = filters
+    def __init__(self, filters: Optional[List["Filter"]]):
+        self._filters = filters if filters is not None else []
 
     def filters_match(self, message: "AISMessage") -> bool:
         return all([f.match(message) for f in self._filters])

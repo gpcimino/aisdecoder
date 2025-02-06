@@ -55,6 +55,9 @@ if __name__ == "__main__":
     if len(sys.argv) == 2:
         filepath = sys.argv[1]  #-extract
     else:
-        filepath = Path("~/data/ais/20210919.log").expanduser().absolute()
+        if Path("/home/giampaolo.cimino/data/ais/20250201-header.log").exists():
+            filepath = Path("/home/giampaolo.cimino/data/ais/20250201-header.log").expanduser().absolute()
+        else:
+            filepath = Path("~/data/ais/20210919.log").expanduser().absolute()
     file_to_netcdf(filepath)
     #pprint(timeit.repeat(parse_file, number=1, repeat=1))

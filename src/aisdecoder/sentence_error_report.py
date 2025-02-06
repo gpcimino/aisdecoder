@@ -20,7 +20,7 @@ class SentenceErrorReport:
     out_of_order: int = 0
     sentences_number: int = 0
 
-    def _error_rate(self) -> float:
+    def error_rate(self) -> float:
         return self.total_errors() / self.text_lines
 
     def add_text_line(self) -> None:
@@ -40,20 +40,18 @@ class SentenceErrorReport:
         return self.text_lines - self.sentences_number == self.total_errors()
 
 
-    def report(self) -> dict[str, Union[Number, dict[str,int]]]:
+    def report(self) -> dict[str, Union[Number, dict[str,int|bool|float]]]:
         return {
             "text_lines": self.text_lines,
             "total_errors": self.total_errors(),
-            "sentences_number": self.sentences_number,
-            "errors_breakdown": {
-                "empty": self.empty,
-                "malformed": self.malformed,
-                "bad_data": self.bad_data,
-                "bad_checksum": self.bad_checksum,
-                "out_of_order": self.out_of_order,
-            },
+            "number_of_sentences": self.sentences_number,
             "data_coherence": self._invariant(),
-            "error_rate": self._error_rate()
+            "error_rate": self.error_rate(),
+            "empty_lines": self.empty,
+            "malformed_sentences": self.malformed,
+            "sentences_with_bad_data": self.bad_data,
+            "sentences_with_bad_checksum": self.bad_checksum,
+            "sentences_out_of_order": self.out_of_order
         }    
 
     def save(self, file: "Path") -> None:
@@ -72,3 +70,15 @@ class SentenceErrorReport:
 
 
 sentence_error_report_singleton = SentenceErrorReport() 
+            # "input_file_number_of_text_lines": self.text_lines,
+            # "number_of_sentences": self.sentences_number,
+            # "total_sentence_errors": self.total_errors(),
+            # "error_rate": self.error_rate(),
+            # "empty_lines": self.empty,
+            # "malformed_sentences": self.malformed,
+            # "sentences_with_bad_data": self.bad_data,
+            # "sentences_with_bad_checksum": self.bad_checksum,
+            # "sentences_out_of_order": self.out_of_order,
+            # "sentence_errors_invariant_coherence": self._invariant(),
+
+

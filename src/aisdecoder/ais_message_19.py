@@ -1,6 +1,9 @@
 import ais  # type: ignore
 
-class AISMessage19:
+from aisdecoder.ais_message_18 import AISMessage18
+
+
+class AISMessage19(AISMessage18):
     @classmethod
     def from_sentence(cls, sentence_payload, padding, receiver_class, time=None):
         try:
