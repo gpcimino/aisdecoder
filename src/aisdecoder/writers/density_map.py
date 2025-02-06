@@ -31,6 +31,10 @@ class DensityMap(Writer):
         if self.filters_match(message):
             self.add_message(message)
 
+    def write_message5(self, message: "AISMessage5") -> None:
+        pass
+
+
     def write_message18(self, message: "AISMessage18") -> None:
         if self.filters_match(message):
             self.add_message(message)

@@ -22,7 +22,7 @@ def file_to_csv(fn):
         for msg in it:
             print(msg.as_csv())
 
-def file_to_netcdf(fn):
+def file_to_netcdf(fn: Path):
     fn = Path(fn)
     #error_report_singleton.set("sentences", "input_file_size_byte", fn.stat().st_size)
     with fn.open() as f:
@@ -38,22 +38,23 @@ def file_to_netcdf(fn):
         )
         static_correration_it = CorrelateStaticIterator(it)
         csv = WriterCSV(Path("kine.csv"))
-        stats=WriterStats()
+        stats=WriterStats(fn)
         for msg in static_correration_it:
             map.add_message(msg)
             msg.write(csv)
             msg.write(stats)
         map.generate_density_map()
         csv.close()
-        stats.save(Path("stats_msg.json"))
-        sentence_error_report_singleton.save(Path("stat_sent.json"))
+        #stats.save(Path("stats_msg.json"))
+        stats.save(Path("~/tmp/ais_stats").expanduser().absolute()/ fn.with_suffix(".stat.json").name)
+
 
 if __name__ == "__main__":
     #pprint(timeit.repeat(plain_aislib, number=1, repeat=1))
     print("------------------")
     #[9.004973700000846, 9.574930900000254, 9.082180499999595]
     if len(sys.argv) == 2:
-        filepath = sys.argv[1]  #-extract
+        filepath = Path(sys.argv[1])  #-extract
     else:
         if Path("/home/giampaolo.cimino/data/ais/20250201-header.log").exists():
             filepath = Path("/home/giampaolo.cimino/data/ais/20250201-header.log").expanduser().absolute()

@@ -115,6 +115,8 @@ class SingleLineVDMSentence(VMDSentence):
         #     raise BadDataSentenceError("Wrong transmitter class " + self.receiver_class(), sentence_str)
 
         err.add_sentence()
+        if self.is_payload_complete():
+            err.add_ais_message_by_id(self.msg_id())
 
     def msg_id(self):
         """Parse only the first char of the sentence to extarct only the AIS msg id (first 6 bits)"""
