@@ -2,6 +2,7 @@
 from dataclasses import dataclass
 import json
 from collections import defaultdict
+from functools import cache 
 
 from typing import TYPE_CHECKING, Union, Any
 if TYPE_CHECKING:
@@ -19,11 +20,21 @@ class SentenceErrorReport:
     bad_checksum: int = 0
     out_of_order: int = 0
     sentences_number: int = 0
-    _ais_msg_ids : dict[str,int] = defaultdict(int)
+    _ais_msg_ids : dict[int,int] = defaultdict(int)
 
-    def error_rate(self) -> float:
+    def sentence_error_percentage(self) -> float:
         return self.total_errors() / self.text_lines
-
+    
+    def sentence_specific_error_percentage(self) -> dict[str, float]:
+        tot_err = self.total_errors()
+        return {
+            "percentage_of_sentences_with_missing_time": self.missing_time / tot_err,
+            "percentage_of_sentences_malformed": self.malformed / tot_err,
+            "percentage_of_sentences_with_bad_data": self.bad_data / tot_err,
+            "percentage_of_sentences_with_bad_checksum": self.bad_checksum / tot_err,
+            "percentage_of_sentences_out_of_order": self.out_of_order / tot_err
+        }
+    
     def add_text_line(self) -> None:
         self.text_lines += 1
 
@@ -43,36 +54,36 @@ class SentenceErrorReport:
     def _invariant(self) -> bool:
         return self.text_lines - self.sentences_number == self.total_errors()
 
+    @cache
+    def total_ais_messages(self) -> int:
+        return sum(v for v in self._ais_msg_ids.values())
 
     def report(self) -> dict[str, Any]:
         sentence_stats = {
             "number_of_text_lines": self.text_lines,
-            "number_of_total_errors": self.total_errors(),
-            "number_of_sentences": self.sentences_number,
-            "sentences_error_invariant_coherence": self._invariant(),
-            "percentage_of_sentences_with_error": self.error_rate(),
             "number_of_empty_lines": self.empty,
-            "number_of_sentences_with_missing_time": self.missing_time,
-            "number_of_sentences_malformed": self.malformed,
-            "number_of_sentences_with_bad_data": self.bad_data,
-            "number_of_sentences_with_bad_checksum": self.bad_checksum,
-            "number_of_sentences_out_of_order": self.out_of_order
+            "number_of_total_errors": self.total_errors(),
+            "number_of_valid_sentences": self.sentences_number,
+            "number_of_ais_messages": self.total_ais_messages(),
+            "sentences_error_invariant_coherence": self._invariant(),
+            "percentage_of_sentences_with_error": self.sentence_error_percentage()
         }   
 
-        total_num_ais_msg = sum(v for v in self._ais_msg_ids.values())
+        sentence_stats = {
+            **sentence_stats,
+            **self.sentence_specific_error_percentage()
+        }   
+
         def calc_perc(m):
-            return (m/total_num_ais_msg)*100
+            return (m/self.total_ais_messages())*100
                 
         sentence_stats = {
             **{"number_of_ais_messages_of_type_"+ str(k): self._ais_msg_ids[k] for k in sorted(self._ais_msg_ids)},
             **{"percentage_of_ais_messages_of_type_" + str(k): calc_perc(self._ais_msg_ids[k])  for k in sorted(self._ais_msg_ids)},
-
             **sentence_stats
         }
         return sentence_stats
     
-
-
     def save(self, file: "Path") -> None:
         with file.open("w") as f:   
             json.dump(self.report(), f) 
