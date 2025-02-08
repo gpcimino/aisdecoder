@@ -2,7 +2,7 @@ from abc import abstractmethod
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from ais_message import AISMessage
+    from aisdecoder.ais_message import AISMessage
 
 class Filter:
     @abstractmethod

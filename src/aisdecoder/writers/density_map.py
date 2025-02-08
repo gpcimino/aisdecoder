@@ -1,10 +1,12 @@
+# type: ignore
+
 import matplotlib.pyplot as plt
 import numpy as np
 
 from aisdecoder.basictypes.basic_types import Rectangle
 from aisdecoder.writers.writer import Writer
 
-from typing import TYPE_CHECKING, List
+from typing import TYPE_CHECKING, List, Optional
 if TYPE_CHECKING:
     from aisdecoder.ais_message_123 import AISMessage123
     from aisdecoder.ais_kinematic_message import AISKinematicMessage
@@ -19,7 +21,7 @@ class DensityMap(Writer):
             map_boundaries: Rectangle,
             output_file="density_map.png", 
             grid_size=(500, 450), 
-            filters: List["Filter"]=None
+            filters: Optional[List["Filter"]]=None
         ):
         super().__init__(filters)
         self._map_boundaries = map_boundaries

@@ -2,7 +2,7 @@ from pathlib import Path
 
 from aisdecoder.writers.writer import Writer
 
-from typing import TYPE_CHECKING, List
+from typing import TYPE_CHECKING, List, Optional
 if TYPE_CHECKING:
     from aisdecoder.ais_message import AISMessage
     from aisdecoder.ais_kinematic_message import AISKinematicMessage
@@ -13,7 +13,7 @@ if TYPE_CHECKING:
     from aisdecoder.filters.filter import Filter 
 
 class WriterCSV(Writer):
-    def __init__(self, filepath_or_buffer: Path, filters: List["Filter"]=None) -> None:
+    def __init__(self, filepath_or_buffer: Path, filters: Optional[List["Filter"]]=None) -> None:
         super().__init__(filters)
         if isinstance(filepath_or_buffer, Path):
             self._fp = filepath_or_buffer.open("w")

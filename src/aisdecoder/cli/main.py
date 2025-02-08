@@ -4,7 +4,7 @@ from pathlib import Path
 from aisdecoder.message_factory import AllMessagesFactory
 from aisdecoder.vdm_sentence_structure import EndsWithEpochTime
 from aisdecoder.message_iterator import MessageIterator
-from aisdecoder.writers.density_map import DensityMap
+from aisdecoder.writers.density_map import DensityMap # type: ignore
 from aisdecoder.writers.writer_csv import WriterCSV
 from aisdecoder.filters.filter_bbox import FilterBBox
 from aisdecoder.basictypes.basic_types import Rectangle

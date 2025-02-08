@@ -14,5 +14,8 @@ https://gpsd.gitlab.io/gpsd/AIVDM.html
 [ ] Complete ais messages data and validation
 [ ] DSL
 [ ] Ruff
+[ ] provenance
+[ ] pipeline
+[ ] MMSI value object
 
 
