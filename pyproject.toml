@@ -25,6 +25,7 @@ dev-dependencies = [
     "assertpy>=1.1",
     "deptry>=0.22.0",
     "mypy>=1.14.1",
+    "xlsx2csv>=0.8.4",
 ]
 
 [tool.hatch.build.targets.wheel]

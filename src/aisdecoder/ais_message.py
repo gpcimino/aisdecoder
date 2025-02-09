@@ -2,6 +2,7 @@ from datetime import datetime
 from abc import abstractmethod
 
 from aisdecoder.message_errors import MessageErrors as Err
+from aisdecoder.basictypes.mmsi import MMSI
 
 from typing import TYPE_CHECKING, Any
 if TYPE_CHECKING:
@@ -11,7 +12,7 @@ if TYPE_CHECKING:
 class AISMessage:
     def __init__(self, time: datetime, mmsi:int, reciver_class:str) -> None:
         self._time : datetime = time
-        self._mmsi : int = mmsi
+        self._mmsi : MMSI = mmsi
         self._receiver_class : str = reciver_class
 
     def message_id(self) -> int:
@@ -21,7 +22,14 @@ class AISMessage:
         return self._time
     
     def MMSI(self) -> int:
-        return self._mmsi
+        return str(self._mmsi)
+    
+    def flag(self) -> int:
+        return self._mmsi.flag()
+    
+    def validate_mmsi(self) -> bool:
+        return False
+
     
     def receiver_class(self) -> str:
         return self._receiver_class

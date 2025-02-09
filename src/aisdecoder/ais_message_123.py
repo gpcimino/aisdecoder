@@ -97,6 +97,8 @@ class AISMessage123(AISKinematicMessage):
     def add_static(self, static_msg: "AISMessage5") -> None:
         self.static_msg = static_msg
 
+
+
 # import logging
 # import math
 
