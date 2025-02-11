@@ -5,6 +5,7 @@ import ais  # type: ignore
 from aisdecoder.ais_kinematic_message import AISKinematicMessage
 from aisdecoder.exceptions import CannotDecodeVDMPaylaodError
 from aisdecoder.basictypes.basic_types import Point
+from aisdecoder.basictypes.mmsi import MMSI
 
 class AISMessage18(AISKinematicMessage):
     @classmethod
@@ -27,7 +28,7 @@ class AISMessage18(AISKinematicMessage):
 
     def __init__(self, 
         time: datetime, 
-        mmsi:int, 
+        mmsi:MMSI, 
         reciver_class:str, 
         position: Point,
         cog:float, 

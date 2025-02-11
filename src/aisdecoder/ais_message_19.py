@@ -1,7 +1,7 @@
 import ais  # type: ignore
 
 from aisdecoder.ais_message_18 import AISMessage18
-
+from aisdecoder.basictypes.mmsi import MMSI
 
 class AISMessage19(AISMessage18):
     @classmethod

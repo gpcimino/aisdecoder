@@ -5,7 +5,7 @@ import ais  # type: ignore
 from aisdecoder.ais_kinematic_message import AISKinematicMessage
 from aisdecoder.exceptions import CannotDecodeVDMPaylaodError
 from aisdecoder.basictypes.basic_types import Point
-
+from aisdecoder.basictypes.mmsi import MMSI
 
 from typing import TYPE_CHECKING, Any, Optional
 if TYPE_CHECKING:
@@ -25,7 +25,7 @@ class AISMessage123(AISKinematicMessage):
             decoded_msg['mmsi'],
             receiver_class,
             Point(decoded_msg['x'], decoded_msg['y']),
-            decoded_msg['cog'],
+            decoded_msg['cog'] / 10,
             decoded_msg['sog'],
             decoded_msg['true_heading'],
             decoded_msg['position_accuracy'],
@@ -35,7 +35,7 @@ class AISMessage123(AISKinematicMessage):
 
     def __init__(self, 
         time: datetime, 
-        mmsi:int, 
+        mmsi:MMSI, 
         reciver_class:str, 
         position: Point,
         cog:float, 

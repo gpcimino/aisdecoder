@@ -1,5 +1,7 @@
 from datetime import timedelta
 
+from aisdecoder.basictypes.mmsi import MMSI
+
 from typing import TYPE_CHECKING, Dict, Optional, Iterator
 if TYPE_CHECKING: 
     from aisdecoder.ais_message_123 import AISMessage123
@@ -10,7 +12,7 @@ class CorrelateStaticIterator:
     def __init__(self, message_iterator: Iterator["AISMessage"], valid_time: Optional[timedelta]=None):
         self._message_iterator: Iterator["AISMessage"] = iter(message_iterator)
         self._valid_time: Optional[timedelta] = valid_time
-        self._cache: Dict[int, "AISMessage5"] = {}
+        self._cache: Dict[MMSI, "AISMessage5"] = {}
 
     def __iter__(self):
         return self  # An iterator must return itself

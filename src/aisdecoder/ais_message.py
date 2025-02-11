@@ -4,13 +4,13 @@ from abc import abstractmethod
 from aisdecoder.message_errors import MessageErrors as Err
 from aisdecoder.basictypes.mmsi import MMSI
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Optional
 if TYPE_CHECKING:
     from datetime import timedelta
 
 
 class AISMessage:
-    def __init__(self, time: datetime, mmsi:int, reciver_class:str) -> None:
+    def __init__(self, time: datetime, mmsi:MMSI, reciver_class:str) -> None:
         self._time : datetime = time
         self._mmsi : MMSI = mmsi
         self._receiver_class : str = reciver_class
@@ -21,24 +21,26 @@ class AISMessage:
     def time(self) -> datetime:
         return self._time
     
-    def MMSI(self) -> int:
-        return str(self._mmsi)
+    def MMSI(self) -> MMSI:
+        return self._mmsi
     
-    def flag(self) -> int:
+    def validate_mmsi(self) -> Err:
+        return self._mmsi.validate()
+    
+    def flag(self) -> Optional[str]:
         return self._mmsi.flag()
     
-    def validate_mmsi(self) -> bool:
-        return False
-
+    def flag_short_name(self) -> Optional[str]:
+        return self._mmsi.flag_short_name()
     
     def receiver_class(self) -> str:
         return self._receiver_class
     
-    def receiver_class_validation(self) -> bool:
+    def receiver_class_validation(self) -> Err:
         if self._receiver_class in ["A", "B"]:
-            return True
+            return Err.OK
         else:
-            return False
+            return Err.BAD_RECEIVER_CLASS
 
     def is_kinematic(self) -> bool:
         raise NotImplementedError()

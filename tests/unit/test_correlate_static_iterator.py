@@ -5,6 +5,7 @@ from assertpy import assert_that
 
 from aisdecoder.correlate_static_iterator import CorrelateStaticIterator
 from aisdecoder.create_message_helper import create_msg_123, create_msg_5
+from aisdecoder.basictypes.mmsi import MMSI
 
 class TestCorrelateStaticIterator(unittest.TestCase):
     @classmethod
@@ -13,8 +14,8 @@ class TestCorrelateStaticIterator(unittest.TestCase):
 
     def setUp(self):
         self._t0 = datetime(2025, 1, 20, 22, 45, 1)
-        self._mmsi1 = 123456789
-        self._mmsi2 = 987654321
+        self._mmsi1 = MMSI(123456789)
+        self._mmsi2 = MMSI(987654321)
 
     def test_msg5_after_msg1_should_correlate(self):
 

@@ -4,6 +4,7 @@ import ais  # type: ignore
 
 from aisdecoder.exceptions import CannotDecodeVDMPaylaodError
 from aisdecoder.ais_message import AISMessage
+from aisdecoder.basictypes.mmsi import MMSI
 
 class AISMessage5(AISMessage):
     @classmethod
@@ -22,7 +23,7 @@ class AISMessage5(AISMessage):
 
     def __init__(self, 
         time: datetime, 
-        mmsi:int, 
+        mmsi:MMSI, 
         reciver_class:str, 
         name: str
     ):

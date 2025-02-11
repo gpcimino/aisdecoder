@@ -3,8 +3,8 @@ from datetime import datetime
 
 from aisdecoder.ais_message import AISMessage
 from aisdecoder.basictypes.basic_types import Point
-from aisdecoder.message_errors import MessageErrors
-
+from aisdecoder.message_errors import MessageErrors as Err
+from aisdecoder.basictypes.mmsi import MMSI
 
 from typing import TYPE_CHECKING, Optional
 if TYPE_CHECKING:
@@ -16,7 +16,7 @@ log = logging.getLogger(__name__)
 class AISKinematicMessage(AISMessage):
     def __init__(self, 
         time: datetime, 
-        mmsi:int, 
+        mmsi:MMSI, 
         reciver_class:str, 
         position: Point,
         cog:float, 
@@ -40,12 +40,12 @@ class AISKinematicMessage(AISMessage):
     def position_uom(self) -> str:
         return "geographic coordinates"
     
-    def validate_position(self)-> MessageErrors:
-        err = MessageErrors.OK
+    def validate_position(self)-> Err:
+        err = Err.OK
         if not self._position.has_valid_latitude():
-            err |= MessageErrors.BAD_LATITUDE
+            err |= Err.BAD_LATITUDE
         if not self._position.has_valid_longitude():
-            err |= MessageErrors.BAD_LONGITUDE
+            err |= Err.BAD_LONGITUDE
         return err
     
     def course_over_ground(self) -> Optional[float]:
@@ -56,11 +56,10 @@ class AISKinematicMessage(AISMessage):
     def course_over_ground_uom(self) -> str:
         return "degrees, 0 is north"
     
-    def validate_course_over_ground(self)-> MessageErrors:
-        err = MessageErrors.OK
+    def validate_course_over_ground(self)-> Err:
         if not 0<= self._cog <= 3600:
-            err |= MessageErrors.BAD_COURSE_OVER_GROUND
-        return err    
+            return Err.BAD_COURSE_OVER_GROUND
+        return Err.OK    
     
     def speed_over_ground(self):
         return self._sog
