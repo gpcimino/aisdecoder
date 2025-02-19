@@ -1,4 +1,4 @@
-# Portions of this code are derived from cookiecutter-uv-example
+# Portions of this Makefile are derived from cookiecutter-uv-example
 # Copyright 2025 Florian Maas
 # Licensed under the Apache License, Version 2.0
 # https://github.com/fpgmaas/cookiecutter-uv-example/blob/main/Dockerfile
@@ -14,7 +14,7 @@ quality: ## Run code quality tools.
 	@echo "Check deps consitency"
 	@uv lock --locked
 	@echo "mypy type checking"
-	@uv run mypy src/
+	@uv run mypy --txt-report mypy-report src/
 	@echo "Check deps"
 	@uv run deptry --per-rule-ignores "DEP003=aisdecoder" .
 

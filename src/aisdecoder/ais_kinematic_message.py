@@ -86,3 +86,4 @@ class AISKinematicMessage(AISMessage):
     def warnings(self):
         return self.validate_course_over_ground()
 
+

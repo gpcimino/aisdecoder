@@ -24,6 +24,7 @@ build-backend = "hatchling.build"
 dev-dependencies = [
     "assertpy>=1.1",
     "deptry>=0.22.0",
+    "lxml>=5.3.1",
     "mypy>=1.14.1",
     "xlsx2csv>=0.8.4",
 ]
