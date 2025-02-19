@@ -25,7 +25,7 @@ class AISMessage123(AISKinematicMessage):
             decoded_msg['mmsi'],
             receiver_class,
             Point(decoded_msg['x'], decoded_msg['y']),
-            decoded_msg['cog'] / 10,
+            decoded_msg['cog'],
             decoded_msg['sog'],
             decoded_msg['true_heading'],
             decoded_msg['position_accuracy'],

@@ -14,6 +14,13 @@ log = logging.getLogger(__name__)
 
 
 class AISKinematicMessage(AISMessage):
+    """
+        Incapsulate all the kinematic aspects of AIS messages.
+        Specific AIS messages with kinematic info should derive from this class.
+        The data store in this class is stored as in the AIS message, for instance course_over_ground ranges from 0 to 3600, where 3600 is not valid.
+        Convertion in the value for user (divided by 10, for course_over_ground) is done in the clas method.
+        An helper class is (create_message_helper) is availabel to create AIS Messages with real values (e.g. passing 359.5 as course_over_ground)
+    """
     def __init__(self, 
         time: datetime, 
         mmsi:MMSI, 
@@ -51,7 +58,7 @@ class AISKinematicMessage(AISMessage):
     def course_over_ground(self) -> Optional[float]:
         if self._cog == 3600:
             return None
-        return self._cog
+        return self._cog / 10
     
     def course_over_ground_uom(self) -> str:
         return "degrees, 0 is north"
