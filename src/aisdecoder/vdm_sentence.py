@@ -117,6 +117,8 @@ class SingleLineVDMSentence(VMDSentence):
         err.add_sentence()
         if self.is_payload_complete():
             err.add_ais_message_by_id(self.msg_id())
+        print(sentence_str)
+            
 
     def msg_id(self):
         """Parse only the first char of the sentence to extarct only the AIS msg id (first 6 bits)"""

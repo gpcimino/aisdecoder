@@ -46,6 +46,11 @@ class TestAISKinematicMessage(unittest.TestCase):
         assert_that(m.course_over_ground()).is_not_none()
         assert_that(m.validate_course_over_ground()).is_equal_to(err.BAD_COURSE_OVER_GROUND)
 
+    def test_correct_speed_over_ground_should_validate(self):
+        m = create_msg_123(sog=5.1)
+        assert_that(m.speed_over_ground()).is_equal_to(5.1)
+        assert_that(m.validate_speed_over_groud()).is_equal_to(err.OK)
+
     # def test_validate_reciever_class(self):
     #     m = create_msg_123(receiver_class="A")
     #     assert_that(m.receiver_class()).is_equal_to("A")

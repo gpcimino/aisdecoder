@@ -69,8 +69,18 @@ class AISKinematicMessage(AISMessage):
         return Err.OK    
     
     def speed_over_ground(self):
-        return self._sog
+        return self._sog / 10
     
+    def speed_over_ground_uom(self):
+        return "knots"
+    
+    def validate_speed_over_groud(self):
+        # Speed over ground is in 0.1-knot resolution from 0 to 102 knots. Value 1023 indicates speed is not available, value 1022 indicates 102.2 knots or higher.
+        if self._sog < 0:
+            return Err.BAD_SPEED_OVER_GROUND
+        return Err.OK     
+
+
     def true_heading(self):
         return self._true_heading
     

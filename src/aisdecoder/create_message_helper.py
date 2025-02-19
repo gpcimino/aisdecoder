@@ -11,6 +11,12 @@ def create_msg_123(time=None, mmsi=None, receiver_class=None, longitude=None, la
     
     if cog is not None:
         cog=int(cog*10)
+        
+    if sog is not None:
+        sog=int(sog*10)
+        if sog>1022:
+            sog=1022
+
     return AISMessage123(
         time or datetime(2025, 1, 20, 22, 45, 1), 
         MMSI(mmsi) or MMSI(123456789),
