@@ -1,7 +1,4 @@
-# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
-
-name: Python package
+name: Test and build AIS Decoder Python package
 
 on:
   push:
@@ -12,30 +9,40 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["pypy3.10", "3.9", "3.10", "3.11", "3.12", "3.13"]
+        python-version: ["3.10", "3.11", "3.12"]
+        os: [ubuntu-latest, macos-latest, windows-latest]
 
     steps:
     - uses: actions/checkout@v4
-    
-    - name: Install uv
+
+    - name: Install uv and set the python version
       uses: astral-sh/setup-uv@v5
       with:
+        python-version: ${{ matrix.python-version }}        
         version: "0.4.24"
-    
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
-      with:
-        python-version: ${{ matrix.python-version }}
 
     - name: Install the project
       run: uv sync --all-extras --dev
 
     - name: Run tests
-      run: uv run python -m unittest discover tests/unit/ 
+      run: uv run python -m unittest discover tests/unit/       
+
+
+    # - name: Install uv
+    #   uses: astral-sh/setup-uv@v5
+    #   with:
+    #     version: "0.4.24"
+
+
+    # - name: Set up Python ${{ matrix.python-version }}
+    #   uses: actions/setup-python@v3
+    #   with:
+    #     python-version: ${{ matrix.python-version }}
 
 
     # - name: Install dependencies

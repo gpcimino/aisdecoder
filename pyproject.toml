@@ -6,7 +6,7 @@ readme = "README.md"
 authors = [
     { name = "Giampaolo Cimino", email = "gcimino@gmail.com" }
 ]
-requires-python = ">=3.12"
+requires-python = ">=3.10"
 dependencies = [
     "libais>=0.17",
     "matplotlib>=3.10.0",
@@ -24,6 +24,7 @@ build-backend = "hatchling.build"
 dev-dependencies = [
     "assertpy>=1.1",
     "deptry>=0.22.0",
+    "lxml>=5.3.1",
     "mypy>=1.14.1",
     "xlsx2csv>=0.8.4",
 ]

@@ -19,13 +19,14 @@ class AISMessage123(AISKinematicMessage):
             decoded_msg = ais.decode(sentence_payload, padding)
         except ais.DecodeError as ade:
             raise CannotDecodeVDMPaylaodError(sentence_payload) from ade
-        #print(decoded_msg)
+        print(sentence_payload)
+        print(decoded_msg)
         return cls(
             time, 
             decoded_msg['mmsi'],
             receiver_class,
             Point(decoded_msg['x'], decoded_msg['y']),
-            decoded_msg['cog'] / 10,
+            decoded_msg['cog'],
             decoded_msg['sog'],
             decoded_msg['true_heading'],
             decoded_msg['position_accuracy'],

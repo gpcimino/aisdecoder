@@ -1,5 +1,8 @@
 # AIS Decoder
 
+
+![example workflow](hhttps://github.com/gpcimino/aisdecoder/actions/workflows/WORKFLOW-FILE/badge.svg)
+
 Decode and convert in useful data format historical AIS messages.
 
 
