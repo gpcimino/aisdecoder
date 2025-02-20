@@ -11,3 +11,5 @@ wheels/
 
 .log
 .vscode/
+mypy-report/
+data/

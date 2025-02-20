@@ -16,7 +16,7 @@ quality: ## Run code quality tools.
 	@echo "mypy type checking"
 	@uv run mypy --txt-report mypy-report src/
 	@echo "Check deps"
-	@uv run deptry --per-rule-ignores "DEP003=aisdecoder" .
+	@uv run deptry . --per-rule-ignores "DEP003=aisdecoder"  --extend-exclude  scripts
 
 .PHONY: test
 test: ## Run tests

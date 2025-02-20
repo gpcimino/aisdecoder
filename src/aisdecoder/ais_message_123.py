@@ -12,15 +12,32 @@ if TYPE_CHECKING:
     from datetime import datetime
     from aisdecoder.ais_message_5 import AISMessage5
 
+
+
 class AISMessage123(AISKinematicMessage):
+    #first = False
     @classmethod
     def from_sentence(cls, sentence_payload, padding, receiver_class, time=None):
         try:
             decoded_msg = ais.decode(sentence_payload, padding)
         except ais.DecodeError as ade:
             raise CannotDecodeVDMPaylaodError(sentence_payload) from ade
-        print(sentence_payload)
-        print(decoded_msg)
+        
+        # print(sentence_payload)
+        # print(decoded_msg)
+        # if not AISMessage123.first:
+        #     print("raw", "mmsi,x,y,cog,sog,true_heading,position_accuracy,id,rot")
+        #     AISMessage123.first = True    
+        # whole ={
+        #     **{"raw": sentence_payload},
+        #     **decoded_msg
+        # } 
+        # print(",".join(
+        #     [str(whole[k]) for k in 
+        #      ["raw", "mmsi", "x", "y", "cog", "sog", "true_heading", "position_accuracy", "id", "rot"]
+        #     ]
+        # ))
+
         return cls(
             time, 
             decoded_msg['mmsi'],

@@ -117,7 +117,7 @@ class SingleLineVDMSentence(VMDSentence):
         err.add_sentence()
         if self.is_payload_complete():
             err.add_ais_message_by_id(self.msg_id())
-        print(sentence_str)
+        #print(sentence_str)
             
 
     def msg_id(self):
