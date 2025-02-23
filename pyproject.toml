@@ -1,6 +1,6 @@
 [project]
 name = "aisdecoder"
-version = "0.1.0"
+version = "0.1.1"
 description = "Parse raw NMEA AIS mesasges to a variety of formats. Works also with historical AIS data decorated with timestamps."
 readme = "README.md"
 license = {text = "Apache-2.0"}
@@ -24,6 +24,10 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12"
 ]
+
+[project.urls]
+"Homepage" = "https://github.com/gpcimino/aisdecoder"
+"Source" = "https://github.com/gpcimino/aisdecoder"
 
 [project.scripts]
 aisdecoder = "aisdecoder.cli.main:main" 

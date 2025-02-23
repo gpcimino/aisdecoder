@@ -3,6 +3,11 @@
 # Licensed under the Apache License, Version 2.0
 # https://github.com/fpgmaas/cookiecutter-uv-example/blob/main/Dockerfile
 
+ifneq (,$(wildcard ./.env))
+    include .env
+    export
+endif
+
 .PHONY: venv 
 venv: ## Create venv
 	@echo "Create venv"
@@ -22,6 +27,27 @@ quality: ## Run code quality tools.
 test: ## Run tests
 	@echo "Unit tests"
 	@uv run python -m unittest discover tests/unit/
+
+.PHONY: showversion
+showversion: 
+	@echo "Show version"
+	@uvx --from=toml-cli toml get --toml-path=pyproject.toml project.version
+
+
+.PHONY: build
+build: ## Build the package
+	@echo "Build the package"
+	@uv build
+
+publish: ## Publish the package
+	@echo "Publish the package"
+	@uv publish --username __token__  --password $(PYPI_TOKEN)
+
+.PHONY: clean-build
+clean-build: ## Clean build artifacts
+	@echo "Removing build artifacts"
+	@rm -rf ./dist/
+
 
 .PHONY: help
 help:
