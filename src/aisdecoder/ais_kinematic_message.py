@@ -73,7 +73,9 @@ class AISKinematicMessage(AISMessage):
     def validate_speed_over_ground(self):
         if self._sog < 0:
             return Err.BAD_SPEED_OVER_GROUND
-        return Err.OK     
+        return Err.OK
+    
+    
 
 
     def true_heading(self):

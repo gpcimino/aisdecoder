@@ -1,0 +1,1 @@
+cat ~/data/ais/20210919-extract.log | gpsdecode --decode | jq .heading | sort  | uniq

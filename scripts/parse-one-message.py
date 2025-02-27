@@ -3,8 +3,6 @@ import sys
 import ais  # type: ignore
 
 
-
-
 def from_sentence(sentence_payload, padding):
     decoded_msg = ais.decode(sentence_payload, padding)
     print(decoded_msg)

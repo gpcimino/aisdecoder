@@ -20,6 +20,13 @@ class WriterCSV(Writer):
         else:
             self._fp = filepath_or_buffer
 
+        headers = [
+            "time","mmsi", "msg_id","longitude","latitude", 
+            "course_over_ground", "speed_over_ground", 
+            "true_heading", "position_accuracy", "rate_of_turn","name"
+        ]
+        self._fp.write(",".join(headers) + "\n")
+
     def _write_ais_message(self, message: "AISMessage") -> None:
         self._fp.write(
             f"{int(message.time().timestamp())},{message.MMSI()},{message.message_id()}"
