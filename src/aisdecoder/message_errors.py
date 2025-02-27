@@ -8,6 +8,7 @@ class MessageErrors(Flag):
     BAD_RECEIVER_CLASS = 16
     BAD_COURSE_OVER_GROUND = 32
     BAD_SPEED_OVER_GROUND = 64
+    BAD_TRUE_HEADING = 128
 
     def __repr__(self):
         return self.name.lower()

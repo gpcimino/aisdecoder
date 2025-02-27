@@ -75,11 +75,15 @@ class AISKinematicMessage(AISMessage):
             return Err.BAD_SPEED_OVER_GROUND
         return Err.OK
     
-    
-
-
     def true_heading(self):
+        if self._true_heading == 511.0 or self._true_heading == 511:
+            return None
         return self._true_heading
+    
+    def validate_true_heading(self):
+        if not (0 <= self._true_heading <= 511.0):
+            return Err.BAD_TRUE_HEADING
+        return Err.OK
     
     def position_accuracy(self):
         return self._position_accuracy

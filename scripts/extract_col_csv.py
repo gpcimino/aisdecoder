@@ -1,17 +1,12 @@
 import argparse
 import pandas as pd
 
-def extract_column(csv_file, column_name, output_file=None):
+def extract_column(csv_file, columns, output_file=None):
     # Read CSV file
     df = pd.read_csv(csv_file)
     
-    # Check if column exists
-    if column_name not in df.columns:
-        print(f"Error: Column '{column_name}' not found in {csv_file}")
-        return
-    
     # Extract column
-    column_data = df[column_name].dropna()
+    column_data = df[columns].dropna()
     
     # Output to file or print to terminal
     if output_file:
@@ -26,5 +21,7 @@ if __name__ == "__main__":
     parser.add_argument('--output_file', help='File to save extracted column (optional)')
     
     args = parser.parse_args()
+    print(args.column_name)
+    columns  = [c.strip() for c in args.column_name.split(",")]
     
-    extract_column(args.csv_file, args.column_name, args.output_file)
+    extract_column(args.csv_file, columns, args.output_file)

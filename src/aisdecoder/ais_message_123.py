@@ -38,7 +38,7 @@ class AISMessage123(AISKinematicMessage):
         #     ]
         # ))
 
-        return cls(
+        m = cls(
             time, 
             decoded_msg['mmsi'],
             receiver_class,
@@ -50,6 +50,8 @@ class AISMessage123(AISKinematicMessage):
             decoded_msg['id'],
             decoded_msg['rot']
         )
+        #m.raw = sentence_payload
+        return m
 
     def __init__(self, 
         time: datetime, 

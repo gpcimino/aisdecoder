@@ -20,11 +20,14 @@ class WriterCSV(Writer):
         else:
             self._fp = filepath_or_buffer
 
+
+
+    def _write_header(self):
         headers = [
             "time","mmsi", "msg_id","longitude","latitude", 
             "course_over_ground", "speed_over_ground", 
-            "true_heading", "position_accuracy", "rate_of_turn","name"
-        ]
+            "true_heading", "position_accuracy", "rate_of_turn","name","raw"
+        ]        
         self._fp.write(",".join(headers) + "\n")
 
     def _write_ais_message(self, message: "AISMessage") -> None:
@@ -41,7 +44,7 @@ class WriterCSV(Writer):
     def write_message123(self, message: "AISMessage123") -> None:
         self._write_kinematic_message(message)
         self._fp.write(
-            f",{message.rate_of_turn()},{message.static_msg.name() if message.static_msg is not None else ''}\n"
+            f",{message.rate_of_turn()},{message.static_msg.name() if message.static_msg is not None else ''}\n" #,{message.raw}
         )
 
     def write_message5(self, message: "AISMessage5") -> None:

@@ -13,3 +13,4 @@ wheels/
 .vscode/
 mypy-report/
 data/
+.env
