@@ -18,14 +18,16 @@ class AISMessage5(AISMessage):
             time, 
             decoded_msg['mmsi'],
             receiver_class,
-            decoded_msg['name']
+            decoded_msg['name'],
+            decoded_msg['imo_num']
         )
 
     def __init__(self, 
         time: datetime, 
         mmsi:MMSI, 
         reciver_class:str, 
-        name: str
+        name: str,
+        imo: int
     ):
         super().__init__(
             time, 
@@ -33,12 +35,16 @@ class AISMessage5(AISMessage):
             reciver_class, 
         )
         self._name = name
+        self._imo = imo
 
     def message_id(self) -> int:
         return 5
 
     def name(self) -> str:
         return self._name
+    
+    def imo(self) -> int:
+        return self._imo
 
     def is_kinematic(self) -> bool:
         return False

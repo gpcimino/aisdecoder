@@ -38,5 +38,3 @@ class SQLLikeFilter(Filter):
         res = visitor.visit(tree)
 
         return res
-
-19

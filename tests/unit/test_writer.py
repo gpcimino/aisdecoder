@@ -18,7 +18,7 @@ class TestWriter(unittest.TestCase):
 
     def test_x(self):
         csv = StringIO("")
-        wr = WriterCSV(csv)
+        wr = WriterCSV(csv, add_header=False)
         wr.write_message123(
             create_msg_123(
                 time=datetime(2025, 1, 1, 10, 20, 1, tzinfo=timezone.utc),
@@ -34,6 +34,6 @@ class TestWriter(unittest.TestCase):
                 rot=4.1
             )
         )
-        assert_that(csv.getvalue()).is_equal_to("1735726801,370394000,1,14.2,10.1,3.2,4.5,180,1,4.1,\n")
+        assert_that(csv.getvalue()).is_equal_to("1735726801,370394000,1,14.2,10.1,3.2,4.5,180,1,4.1,,\n")
 
         

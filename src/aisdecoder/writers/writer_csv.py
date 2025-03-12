@@ -13,20 +13,23 @@ if TYPE_CHECKING:
     from aisdecoder.filters.filter import Filter 
 
 class WriterCSV(Writer):
-    def __init__(self, filepath_or_buffer: Path, filters: Optional[List["Filter"]]=None) -> None:
+    def __init__(self, filepath_or_buffer: Path, filters: Optional[List["Filter"]]=None, add_header=True) -> None:
         super().__init__(filters)
         if isinstance(filepath_or_buffer, Path):
             self._fp = filepath_or_buffer.open("w")
         else:
             self._fp = filepath_or_buffer
-
+        if add_header:
+            self._write_header()
 
 
     def _write_header(self):
         headers = [
-            "time","mmsi", "msg_id","longitude","latitude", 
-            "course_over_ground", "speed_over_ground", 
-            "true_heading", "position_accuracy", "rate_of_turn","name","raw"
+            "time","mmsi", "msg_id",
+            "longitude","latitude", 
+            "course_over_ground", "speed_over_ground", "true_heading", "position_accuracy", 
+            "rate_of_turn",
+            "name"
         ]        
         self._fp.write(",".join(headers) + "\n")
 
@@ -42,24 +45,41 @@ class WriterCSV(Writer):
         )
 
     def write_message123(self, message: "AISMessage123") -> None:
+        if not self.filters_match(message=message):
+            return
         self._write_kinematic_message(message)
         self._fp.write(
-            f",{message.rate_of_turn()},{message.static_msg.name() if message.static_msg is not None else ''}\n" #,{message.raw}
+            f",{message.rate_of_turn()}" #,{message.raw}
         )
+        if message.static_msg is not None:
+            self._fp.write(
+                f",{message.static_msg.name()},{message.static_msg.imo()}\n"
+            )            
+        else:
+            self._fp.write(
+                f",,\n"
+            )               
+
 
     def write_message5(self, message: "AISMessage5") -> None:
-        self._write_ais_message(message)       
-        self._fp.write(
-            f"{message.name()}\n"
-        )
+        pass
+        # self._write_ais_message(message)       
+        # self._fp.write(
+        #     f"{message.name()}\n"
+        # )
 
     def write_message18(self, message: "AISMessage18") -> None:
+        if not self.filters_match(message=message):
+            return
         self._write_kinematic_message(message)
         self._fp.write(
             f"\n"
         )        
 
     def write_message19(self, message: "AISMessage19") -> None:
+        if not self.filters_match(message=message):
+            return
+
         self._write_kinematic_message(message)      
         self._fp.write(
             f"\n"

@@ -27,5 +27,6 @@ def create_msg_5(time=None, mmsi=None, receiver_class=None, vessel_name=None):
         time or datetime(2025, 1, 20, 22, 45, 1), 
         mmsi or 123456789,
         receiver_class or "A",
-        vessel_name or "Titanic"
+        vessel_name or "Titanic",
+        imo=1000
     )

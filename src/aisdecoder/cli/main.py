@@ -11,6 +11,7 @@ from aisdecoder.basictypes.basic_types import Rectangle
 from aisdecoder.correlate_static_iterator import CorrelateStaticIterator
 from aisdecoder.sentence_error_report import sentence_error_report_singleton
 from aisdecoder.writers.writer_stats import WriterStats
+from aisdecoder.filters.sqllikefilter.sqllikefilter import SQLLikeFilter
 
 def file_to_csv(fn):
     with open(fn) as f:
@@ -38,13 +39,16 @@ def file_to_netcdf(fn: Path):
         )
         static_correration_it = CorrelateStaticIterator(it)
         csv = WriterCSV(Path("kine.csv"))
+        csv_filtered = WriterCSV(Path("kine-filterd.csv"), filters=[SQLLikeFilter("_sog > 10 AND _cog > 180")])
         stats=WriterStats(fn)
         for msg in static_correration_it:
             map.add_message(msg)
             msg.write(csv)
             msg.write(stats)
+            msg.write(csv_filtered)
         map.generate_density_map()
         csv.close()
+        csv_filtered.close()
         #stats.save(Path("stats_msg.json"))
         stats.save(Path("~/tmp/ais_stats").expanduser().absolute()/ fn.with_suffix(".stat.json").name)
 

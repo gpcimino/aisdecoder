@@ -12,19 +12,19 @@ class AISQLVisitorImpl(aisqlVisitor):
     #     return super().visitParse(ctx)
 
     def visitExpression(self, ctx:aisqlParser.ExpressionContext):
-        print("Expression=" + str(ctx.getChild(0)))
+        #print("Expression=" + str(ctx.getChild(0)))
         return self.visit(ctx.getChild(0))
 
     def visitParenExpression(self, ctx:aisqlParser.ParenExpressionContext):
-        print("Parentesi=" + str(ctx.expression()))
+        #print("Parentesi=" + str(ctx.expression()))
         return self.visit(ctx.expression())
     
     def visitNotExpression(self, ctx:aisqlParser.NotExpressionContext):
-        print("Not=" + str(ctx.expression()))
+        #print("Not=" + str(ctx.expression()))
         return not self.visit(ctx.expression())
     
     def visitBinaryExpression(self, ctx:aisqlParser.BinaryExpressionContext):
-        print("Binary=" + str(ctx.op))
+        #print("Binary=" + str(ctx.op))
         if ctx.op.AND() != None:
             return self.visit(ctx.left) and self.visit(ctx.right)
         elif ctx.op.OR() != None:
@@ -33,38 +33,44 @@ class AISQLVisitorImpl(aisqlVisitor):
             raise Exception("not implemented: binary operator " + ctx.op.getText())
         
     def visitBoolExpression(self, ctx):
-        print("Bool=" + str(ctx.getText().strip().lower()))
+        #print("Bool=" + str(ctx.getText().strip().lower()))
         bool_literal = ctx.getText().strip().lower()
         if bool_literal == "TRUE":
             return True
         return False
 
     def visitComparatorExpression(self, ctx):
-        print("Compare=" + str(ctx.op))
+        #print("Compare=" + str(ctx.op))
+        left = self.visit(ctx.left)
+        if left == None:
+            return False
+        right = self.visit(ctx.right)
+        if right == None:
+            return False
         if ctx.op.EQ() != None:
-            return self.visit(ctx.left) == self.visit(ctx.right)
+            return left == right
         elif ctx.op.LE() != None:
-            return self.visit(ctx.left) <= self.visit(ctx.right)
+            return left <= right
         elif ctx.op.GE() != None:
-            return self.visit(ctx.left) >= self.visit(ctx.right)
+            return left >= right
         elif ctx.op.LT() != None:
-            return self.visit(ctx.left) < self.visit(ctx.right)
+            return left < right
         elif ctx.op.GT() != None:
-            return self.visit(ctx.left) > self.visit(ctx.right)
+            return left > right
         else:
             raise Exception("not implemented: comparator operator " + ctx.op.getText())
 
     def visitIdentifierExpression(self, ctx:aisqlParser.IdentifierExpressionContext):
-        print("Identifier=" + str(ctx.getText().strip()))
+        #print("Identifier=" + str(ctx.getText().strip()))
         attr = ctx.getText().strip()
         attr_value = getattr(self._ais_message, attr)
-        #print(ctx.getText().strip() + "=" + str(attr_value))
+        print(ctx.getText().strip() + "=" + str(attr_value))
         return attr_value
     
 
 
     def visitDecimalExpression(self, ctx):
-        print("Decimal=" + str(ctx.getText().strip()))
+        #print("Decimal=" + str(ctx.getText().strip()))
         return float(ctx.getText())
     
 # public Object visitComparatorExpression(SimpleBooleanParser.ComparatorExpressionContext ctx) {
