@@ -61,13 +61,33 @@ class AISQLVisitorImpl(aisqlVisitor):
             raise Exception("not implemented: comparator operator " + ctx.op.getText())
 
     def visitIdentifierExpression(self, ctx:aisqlParser.IdentifierExpressionContext):
-        #print("Identifier=" + str(ctx.getText().strip()))
         attr = ctx.getText().strip()
-        attr_value = getattr(self._ais_message, attr)
-        print(ctx.getText().strip() + "=" + str(attr_value))
-        return attr_value
-    
 
+        if attr == "course_over_ground" or attr == "cog":
+            return self._ais_message.course_over_ground()
+        elif attr == "speed_over_ground" or attr == "sog":
+            return self._ais_message.speed_over_ground()
+        elif attr == "true_heading":
+            return self._ais_message.true_heading()
+        elif attr == "position_accuracy":
+            return self._ais_message.position_accuracy()
+        elif attr == "rate_of_turn" or attr == "rot":
+            return self._ais_message.rate_of_turn()
+        elif attr == "message_id" or attr == "id":
+            return self._ais_message.message_id()
+        elif attr == "name":
+            if self._ais_message.static_msg is None:
+                return None
+            return self._ais_message.static_msg.name().strip()
+        else:
+            raise Exception("Unknown attribute: " + attr)
+        # attr = ctx.getText().strip()
+        # try:
+        #     attr_value = getattr(self._ais_message, attr)
+        # except AttributeError:
+        #     attr_value = getattr(self._ais_message, attr)()
+        # #print(ctx.getText().strip() + "=" + str(attr_value))
+        # return attr_value
 
     def visitDecimalExpression(self, ctx):
         #print("Decimal=" + str(ctx.getText().strip()))
