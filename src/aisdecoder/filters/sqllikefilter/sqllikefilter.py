@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from antlr4 import InputStream, CommonTokenStream
+from antlr4 import InputStream, CommonTokenStream # type: ignore
 
 from aisdecoder.filters.filter import Filter
 from aisdecoder.ais_kinematic_message import AISKinematicMessage

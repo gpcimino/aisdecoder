@@ -19,9 +19,9 @@ quality: ## Run code quality tools.
 	@echo "Check deps consitency"
 	@uv lock --locked
 	@echo "mypy type checking"
-	@uv run mypy --txt-report mypy-report src/
+	@uv run mypy --txt-report mypy-report --exclude 'aisql.*\.py' src/
 	@echo "Check deps"
-	@uv run deptry . --per-rule-ignores "DEP003=aisdecoder"  --extend-exclude  scripts
+	@uv run deptry . --per-rule-ignores "DEP003=aisdecoder" --extend-exclude scripts
 
 .PHONY: test
 test: ## Run tests
