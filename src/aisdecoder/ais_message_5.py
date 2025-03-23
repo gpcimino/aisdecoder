@@ -6,6 +6,9 @@ from aisdecoder.exceptions import CannotDecodeVDMPaylaodError
 from aisdecoder.ais_message import AISMessage
 from aisdecoder.basictypes.mmsi import MMSI
 
+
+from typing import Optional
+
 class AISMessage5(AISMessage):
     @classmethod
     def from_sentence(cls, sentence_payload, padding, receiver_class, time=None):
@@ -40,8 +43,10 @@ class AISMessage5(AISMessage):
     def message_id(self) -> int:
         return 5
 
-    def name(self) -> str:
-        return self._name
+    def name(self) -> Optional[str]:
+        if self._name is None:
+            return None 
+        return self._name.rstrip("@").strip()
     
     def imo(self) -> int:
         return self._imo

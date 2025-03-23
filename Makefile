@@ -48,6 +48,10 @@ clean-build: ## Clean build artifacts
 	@echo "Removing build artifacts"
 	@rm -rf ./dist/
 
+.PHONY: grammar
+grammar: ## Parse grammar for SQL-like Filter and create ANTLR4 parser, lexer, visitor
+	@antlr4 -visitor -Dlanguage=Python3 src/aisdecoder/filters/sqllikefilter/aisql.g4
+
 
 .PHONY: help
 help:

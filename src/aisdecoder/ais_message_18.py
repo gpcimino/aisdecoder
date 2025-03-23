@@ -50,6 +50,6 @@ class AISMessage18(AISKinematicMessage):
     
     def message_id(self) -> int:
         return 18
-        
+            
     def write(self, writer):
         writer.write_message18(self)

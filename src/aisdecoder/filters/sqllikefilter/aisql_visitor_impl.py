@@ -76,9 +76,16 @@ class AISQLVisitorImpl(aisqlVisitor):
         elif attr == "message_id" or attr == "id":
             return self._ais_message.message_id()
         elif attr == "name":
-            if self._ais_message.static_msg is None:
-                return None
-            return self._ais_message.static_msg.name().strip()
+            if self._ais_message.message_id() in  [1,2,3]:
+                if self._ais_message.static_msg is None:
+                    return None
+                if self._ais_message.static_msg.name() is None:
+                    return None  
+                return self._ais_message.static_msg.name()           
+            elif self._ais_message.message_id() == 19:
+                if self._ais_message.name() is None:
+                    return None  
+                return self._ais_message.name()                  
         else:
             raise Exception("Unknown attribute: " + attr)
         # attr = ctx.getText().strip()
@@ -92,6 +99,9 @@ class AISQLVisitorImpl(aisqlVisitor):
     def visitDecimalExpression(self, ctx):
         #print("Decimal=" + str(ctx.getText().strip()))
         return float(ctx.getText())
+ 
+    def visitStringExpression(self, ctx):
+        return ctx.getText()[1:-1] # remove the intial and ending double quotes
     
 # public Object visitComparatorExpression(SimpleBooleanParser.ComparatorExpressionContext ctx) {
 #     if (ctx.op.EQ() != null) {

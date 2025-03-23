@@ -1,12 +1,10 @@
-# Generated from /home/giampaolo/projects/aisdecoder/src/aisdecoder/filters/sqllikefilter/aisql.g4 by ANTLR 4.13.2
+# Generated from src/aisdecoder/filters/sqllikefilter/aisql.g4 by ANTLR 4.13.2
 from antlr4 import *
 # if "." in __name__:
 #     from .aisqlParser import aisqlParser
 # else:
 #     from aisqlParser import aisqlParser
-
 from aisdecoder.filters.sqllikefilter.aisqlParser import aisqlParser
-
 # This class defines a complete generic visitor for a parse tree produced by aisqlParser.
 
 class aisqlVisitor(ParseTreeVisitor):
@@ -23,6 +21,11 @@ class aisqlVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by aisqlParser#decimalExpression.
     def visitDecimalExpression(self, ctx:aisqlParser.DecimalExpressionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by aisqlParser#stringExpression.
+    def visitStringExpression(self, ctx:aisqlParser.StringExpressionContext):
         return self.visitChildren(ctx)
 
 
