@@ -79,12 +79,8 @@ class AISQLVisitorImpl(aisqlVisitor):
             if self._ais_message.message_id() in  [1,2,3]:
                 if self._ais_message.static_msg is None:
                     return None
-                if self._ais_message.static_msg.name() is None:
-                    return None  
                 return self._ais_message.static_msg.name()           
             elif self._ais_message.message_id() == 19:
-                if self._ais_message.name() is None:
-                    return None  
                 return self._ais_message.name()                  
         else:
             raise Exception("Unknown attribute: " + attr)
