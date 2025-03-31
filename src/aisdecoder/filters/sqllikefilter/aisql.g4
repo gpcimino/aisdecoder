@@ -1,23 +1,3 @@
-// grammar aisql;
-// 
-// prog:   WHERE expr NEWLINE*;
-// 
-// expr:  
-//     |   'cog' OP INT
-//     |   'sog' OP INT
-//     ;
-// 
-// NEWLINE : [\r\n]+ ;
-// INT     : [0-9]+ ;
-// WHERE   : 'WHERE' ;
-// WS      : [ \t]+ -> skip ; // toss out whitespace
-// OP      : [LT | GT] ;
-// GT : '>' ;
-// GE : '>=' ;
-// LT : '<' ;
-// LE : '<=' ;
-// EQ : '=' ;
-
 grammar aisql;
 
 parse
