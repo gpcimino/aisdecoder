@@ -33,8 +33,12 @@ class SQLLikeFilter(Filter):
         parser = aisqlParser(tokens)
         tree = parser.parse()
 
+        #print(tree.toStringTree(recog=parser))
+
+
         # use customized visitor to traverse AST
         visitor = AISQLVisitorImpl(message)
         res = visitor.visit(tree)
+
 
         return res

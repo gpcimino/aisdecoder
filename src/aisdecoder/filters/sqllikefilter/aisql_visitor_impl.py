@@ -35,7 +35,7 @@ class AISQLVisitorImpl(aisqlVisitor):
     def visitBoolExpression(self, ctx):
         #print("Bool=" + str(ctx.getText().strip().lower()))
         bool_literal = ctx.getText().strip().lower()
-        if bool_literal == "TRUE":
+        if bool_literal == "true":
             return True
         return False
 

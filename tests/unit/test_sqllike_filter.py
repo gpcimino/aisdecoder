@@ -52,12 +52,12 @@ class TestAISKinematicMessage(unittest.TestCase):
         assert_that(f.match(m1)).is_true()       
 
 
-    def test_filter_by_speed_work(self):
+    def test_filter_by_speed_and_name_should_work(self):
         m1 = create_msg_123(sog=5)
         m5 = create_msg_5(vessel_name="ABC")
         m1.add_static(m5)
-        f = SQLLikeFilter(code='name = "ABC" AND speed_over_ground > 6')
+        f = SQLLikeFilter(code='speed_over_ground > 4 AND name = "ABC" ')
         assert_that(f.match(m1)).is_true()          
 
-        f = SQLLikeFilter(code='name = "ABC" AND speed_over_ground < 5')
+        f = SQLLikeFilter(code='name = "ABC" AND speed_over_ground < 4')
         assert_that(f.match(m1)).is_false()                  
