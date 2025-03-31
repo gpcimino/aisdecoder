@@ -39,7 +39,7 @@ def file_to_netcdf(fn: Path):
         )
         static_correration_it = CorrelateStaticIterator(it)
         csv = WriterCSV(Path("kine.csv"))
-        csv_filtered = WriterCSV(Path("kine-filterd.csv"), filters=[SQLLikeFilter('name="LA SUPERBA"')])
+        csv_filtered = WriterCSV(Path("kine-filterd.csv"), filters=[SQLLikeFilter('speed_over_ground > 10 AND course_over_ground >180  ')])
         stats=WriterStats(fn)
         for msg in static_correration_it:
             map.add_message(msg)
