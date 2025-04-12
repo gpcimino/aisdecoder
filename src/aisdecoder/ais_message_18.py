@@ -23,7 +23,9 @@ class AISMessage18(AISKinematicMessage):
             decoded_msg['cog'],
             decoded_msg['sog'],
             decoded_msg['true_heading'],
-            decoded_msg['position_accuracy']
+            decoded_msg['position_accuracy'],
+            decoded_msg['timestamp'],
+            decoded_msg['nav_status']            
         )
 
     def __init__(self, 
@@ -34,7 +36,9 @@ class AISMessage18(AISKinematicMessage):
         cog:float, 
         sog:float, 
         true_heading:int, 
-        position_accuracy: int
+        position_accuracy: int,
+        utc_seconds: int,
+        naviagation_status: int        
     ):
         super().__init__(
             time, 
@@ -44,7 +48,9 @@ class AISMessage18(AISKinematicMessage):
             cog, 
             sog, 
             true_heading, 
-            position_accuracy
+            position_accuracy,
+            utc_seconds,
+            naviagation_status
         )
         pass
     

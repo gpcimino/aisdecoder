@@ -14,6 +14,7 @@ if TYPE_CHECKING:
 log = logging.getLogger(__name__)
 
 
+
 class AISKinematicMessage(AISMessage):
     def __init__(self, 
         time: datetime, 
@@ -23,7 +24,8 @@ class AISKinematicMessage(AISMessage):
         cog:float, 
         sog:float, 
         true_heading:int, 
-        position_accuracy: int    
+        position_accuracy: int,
+        utc_seconds: int
     ) -> None:
         super().__init__(time, mmsi, reciver_class)
         self._position: Point = position
@@ -31,6 +33,8 @@ class AISKinematicMessage(AISMessage):
         self._sog: float = sog 
         self._true_heading: int = true_heading
         self._position_accuracy: int = position_accuracy
+        self._utc_seconds: int = utc_seconds
+
 
     def is_kinematic(self) -> bool:
         return True
@@ -88,6 +92,21 @@ class AISKinematicMessage(AISMessage):
     def position_accuracy(self):
         return self._position_accuracy
     
+    def utc_seconds(self):
+        #UTC second when the report was generated (0-59
+        # or 60 if time stamp is not available, which should also be the default value
+        # or 62 if electronic position fixing system operates in estimated (dead reckoning) mode
+        # or 61 if positioning system is in manual input mode
+        # or 63 if the positioning system is inoperative)
+        # if self._utc_seconds == 60:
+        #     return None
+        return self._utc_seconds
+    
+    def rate_of_turn(self):
+        return self._rate_of_turn
+
+
+    
     def is_inside(self, bbox):
         return bbox.contains(self._position)
     
@@ -96,5 +115,7 @@ class AISKinematicMessage(AISMessage):
     
     def warnings(self):
         return self.validate_course_over_ground()
+    
+
 
 

@@ -41,7 +41,7 @@ class WriterCSV(Writer):
     def _write_kinematic_message(self, message: "AISKinematicMessage") -> None:   
         self._write_ais_message(message)        
         self._fp.write(
-            f",{message.position().as_csv()},{message.course_over_ground()},{message.speed_over_ground()},{message.true_heading()},{message.position_accuracy()}"  
+            f",{message.position().as_csv()},{message.course_over_ground()},{message.speed_over_ground()},{message.true_heading()},{message.position_accuracy()},{message.utc_seconds()},{message.navigation_status_str()}"  
         )
 
     def write_message123(self, message: "AISMessage123") -> None:

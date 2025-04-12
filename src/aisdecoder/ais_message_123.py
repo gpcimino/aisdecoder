@@ -12,7 +12,24 @@ if TYPE_CHECKING:
     from datetime import datetime
     from aisdecoder.ais_message_5 import AISMessage5
 
-
+ais_nav_status = {
+    0: "under way using engine",
+    1: "at anchor",
+    2: "not under command",
+    3: "restricted manoeuvrability",
+    4: "constrained by her draught",
+    5: "moored",
+    6: "aground",
+    7: "engaged in fishing",
+    8: "under way sailing",
+    9: "reserved for future amendment of navigational status for ships carrying DG, HS, or MP, or IMO hazard or pollutant category C (HSC)",
+    10: "reserved for future amendment of navigational status for ships carrying DG, HS or MP, or IMO hazard or pollutant category A (WIG)",
+    11: "reserved for future use",
+    12: "reserved for future use",
+    13: "reserved for future use",
+    14: "reserved for future use",
+    15: "not defined" # Also considered the default
+}
 
 class AISMessage123(AISKinematicMessage):
     #first = False
@@ -48,7 +65,9 @@ class AISMessage123(AISKinematicMessage):
             decoded_msg['true_heading'],
             decoded_msg['position_accuracy'],
             decoded_msg['id'],
-            decoded_msg['rot']
+            decoded_msg['rot'],
+            decoded_msg['timestamp'],
+            decoded_msg['nav_status']
         )
         #m.raw = sentence_payload
         return m
@@ -63,7 +82,9 @@ class AISMessage123(AISKinematicMessage):
         true_heading:int, 
         position_accuracy: int,
         id: int,
-        rot: float
+        rot: float,
+        utc_seconds: int,
+        naviagation_status: int
     ):
         super().__init__(
             time, 
@@ -73,11 +94,13 @@ class AISMessage123(AISKinematicMessage):
             cog, 
             sog, 
             true_heading, 
-            position_accuracy
+            position_accuracy,
+            utc_seconds
         )
         self._id = id
         self._rot: float = rot
         self.static_msg: Optional["AISMessage5"] = None
+        self._naviagation_status: int = naviagation_status
 
     def message_id(self) -> int:
         return self._id
@@ -109,6 +132,13 @@ class AISMessage123(AISKinematicMessage):
         # if math.isclose(rot, 731.3864840545559677391778660594, rel_tol=1e-4):
         #     return None        
         return True
+    
+    
+    def naviagation_status(self):
+        return self._naviagation_status
+    
+    def navigation_status_str(self):
+        return ais_nav_status[self._naviagation_status]     
 
 
     def write(self, writer):
